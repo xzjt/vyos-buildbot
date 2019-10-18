@@ -12,9 +12,9 @@
 
 name: $(BUILD_SCRIPT_BRANCH)-$(BUILD_TYPE)-$(Date:yyyyMMdd).$(Rev:r)
 variables:
-  BUILD_BY: "github@public.swineson.me"
+  BUILD_BY: "admin@ovirt.club"
   BUILD_TYPE: "release"
-  IMAGE_NAME: "jamesits/vyos-builder"
+  IMAGE_NAME: "xzjt/vyos-build"
   BUILD_SCRIPT_BRANCH: "crux"
   BUILD_VERSION: "1.2.3"
 
