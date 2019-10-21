@@ -1,20 +1,45 @@
 #!/bin/bash
 set -euo pipefail
 
-IMAGE_NAME=${IMAGE_NAME:-"vyos-builder"}
-BUILD_SCRIPT_BRANCH=${BUILD_SCRIPT_BRANCH:-crux}
+BUILD_BY=${BUILD_BY:-"admin@ovirt.club"}
+BUILD_TYPE=${BUILD_TYPE:-"release"}
+BUILD_VERSION=${BUILD_VERSION:-"1.2.4"}
+IMAGE_NAME=${IMAGE_NAME:-"jamesits/vyos-builder"}
+BUILD_SCRIPT_BRANCH=${BUILD_SCRIPT_BRANCH:-"current"}
+
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run as root" 
+   exit 1
+fi
 
 if ! [ -x "$(command -v unzip)" ]; then
   sudo apt-get install -y unzip
 fi
 
-! rm -rf "vyos-build-${BUILD_SCRIPT_BRANCH}"
+! rm -rf "vyos-build"
 
 # download scripts
-curl -L "https://github.com/vyos/vyos-build/archive/${BUILD_SCRIPT_BRANCH}.zip" -o build_script.zip
-unzip build_script.zip
+git clone https://github.com/vyos/vyos-build.git
 
-# build environment
-pushd "vyos-build-${BUILD_SCRIPT_BRANCH}"
-docker build -t ${IMAGE_NAME}:${BUILD_SCRIPT_BRANCH} docker
-popd
+# build image
+pushd "vyos-build"
+echo "configuring..."
+docker run --rm --privileged -v $(pwd):/vyos -w /vyos "${IMAGE_NAME}:${BUILD_SCRIPT_BRANCH}" ./configure --build-by "${BUILD_BY}" --build-type "${BUILD_TYPE}" --version "${BUILD_VERSION}"
+
+for var in "$@"
+do
+    echo "Building $var..."
+    
+    # do not set -j
+    docker run --rm --privileged -v $(pwd):/vyos -w /vyos "${IMAGE_NAME}:${BUILD_SCRIPT_BRANCH}" make "${var}"
+done
+
+# collect artifacts
+if [ -z ${BUILD_ARTIFACTSTAGINGDIRECTORY+x} ]; then 
+   echo "Environment variable BUILD_ARTIFACTSTAGINGDIRECTORY is unset, skipping"
+else
+   ls -alh build/
+   
+   # recurse intentionally disabled
+   ! cp -d build/* ${BUILD_ARTIFACTSTAGINGDIRECTORY}
+fi
