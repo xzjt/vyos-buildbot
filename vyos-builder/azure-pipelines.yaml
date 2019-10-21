@@ -1,6 +1,22 @@
-name: $(IMAGE_NAME)-$(Date:yyyyMMdd).$(Rev:r)
+# required variables:
+#   IMAGE_NAME
+#     The docker image name
+#     Example: vyos/vyos-build
+#   BUILD_SCRIPT_BRANCH
+#     A branch of https://github.com/vyos/vyos-build
+#     Available value: crux, current
+#   BUILD_BY
+#   BUILD_TYPE
+#     image type, release or development
+#   BUILD_VERSION
+
+name: $(BUILD_SCRIPT_BRANCH)-$(BUILD_TYPE)-$(Date:yyyyMMdd).$(Rev:r)
 variables:
+  BUILD_BY: "admin@ovirt.club"
+  BUILD_TYPE: "release"
   IMAGE_NAME: "jamesits/vyos-builder"
+  BUILD_SCRIPT_BRANCH: "current"
+  BUILD_VERSION: "1.2.4"
 
 trigger:
   batch: false
@@ -11,8 +27,8 @@ trigger:
     exclude: [ "README.md" ]
 
 jobs:
-  - job: docker
-    displayName: "docker build"
+  - job: image
+    displayName: "build image"
     pool:
       vmImage: "ubuntu-16.04"
     workspace:
@@ -21,29 +37,14 @@ jobs:
 
     strategy:
       matrix:
-        crux:
-          BUILD_SCRIPT_BRANCH: 'crux'
-        current:
-          BUILD_SCRIPT_BRANCH: 'current'
+        iso:
+          IMAGE_FORMAT: 'iso'
 
     steps:
-    - task: Bash@3
-      displayName: 'docker build'
-      inputs:
-        targetType: filePath
-        filePath: 'vyos-builder/build.sh'
+    - bash: 'sudo -E ./vyos-builder/build.sh ${IMAGE_FORMAT}'
+      displayName: 'image build'
 
-    - task: Docker@1
-      displayName: login
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact'
       inputs:
-        containerregistrytype: 'Container Registry'
-        dockerRegistryEndpoint: Jamesits
-        command: login
-
-    - task: Docker@1
-      displayName: 'Push an image'
-      inputs:
-        containerregistrytype: 'Container Registry'
-        dockerRegistryEndpoint: Jamesits
-        command: 'Push an image'
-        imageName: '$(IMAGE_NAME):$(BUILD_SCRIPT_BRANCH)'
+        artifactName: '$(IMAGE_FORMAT)'
