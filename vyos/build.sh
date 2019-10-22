@@ -4,7 +4,7 @@ set -euo pipefail
 BUILD_BY=${BUILD_BY:-"admin@ovirt.club"}
 BUILD_TYPE=${BUILD_TYPE:-"release"}
 BUILD_VERSION=${BUILD_VERSION:-"1.2.3"}
-IMAGE_NAME=${IMAGE_NAME:-"vyos/vyos-build"}
+IMAGE_NAME=${IMAGE_NAME:-"jamesits/vyos-builder"}
 BUILD_SCRIPT_BRANCH=${BUILD_SCRIPT_BRANCH:-"crux"}
 
 if [[ $EUID -ne 0 ]]; then
@@ -24,7 +24,7 @@ git clone --branch ${BUILD_SCRIPT_BRANCH} https://github.com/vyos/vyos-build.git
 # build image
 pushd "vyos-build"
 echo "configuring..."
-docker run --rm --privileged -v $(pwd):/vyos -w /vyos "${IMAGE_NAME}:${BUILD_SCRIPT_BRANCH}" ./configure --architecture amd64 --build-by "${BUILD_BY}" --build-type "${BUILD_TYPE}" --version "${BUILD_VERSION}"
+docker run --rm --privileged -v $(pwd):/vyos -w /vyos "${IMAGE_NAME}:${BUILD_SCRIPT_BRANCH}" ./configure --build-by "${BUILD_BY}" --build-type "${BUILD_TYPE}" --version "${BUILD_VERSION}"
 
 for var in "$@"
 do
