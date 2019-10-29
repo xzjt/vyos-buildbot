@@ -14,7 +14,7 @@ name: $(BUILD_SCRIPT_BRANCH)-$(BUILD_TYPE)-$(Date:yyyyMMdd).$(Rev:r)
 variables:
   BUILD_BY: "admin@ovirt.club"
   BUILD_TYPE: "release"
-  IMAGE_NAME: "jamesits/vyos-builder"
+  IMAGE_NAME: "vyos/vyos-build"
   BUILD_SCRIPT_BRANCH: "current"
   BUILD_VERSION: "1.2.4"
 
