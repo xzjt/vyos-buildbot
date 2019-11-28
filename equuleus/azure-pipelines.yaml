@@ -1,0 +1,50 @@
+# required variables:
+#   IMAGE_NAME
+#     The docker image name
+#     Example: vyos/vyos-build
+#   BUILD_SCRIPT_BRANCH
+#     A branch of https://github.com/vyos/vyos-build
+#     Available value: crux, current, equuleus
+#   BUILD_BY
+#   BUILD_TYPE
+#     image type, release or development
+#   BUILD_VERSION
+
+name: $(BUILD_SCRIPT_BRANCH)-$(BUILD_TYPE)-$(Date:yyyyMMdd).$(Rev:r)
+variables:
+  BUILD_BY: "admin@ovirt.club"
+  BUILD_TYPE: "release"
+  IMAGE_NAME: "vyos/vyos-build"
+  BUILD_SCRIPT_BRANCH: "equuleus"
+  BUILD_VERSION: "1.3"
+
+trigger:
+  batch: false
+  branches:
+    include: [ "master" ]
+  paths:
+    include: [ "/vyos/*" ]
+    exclude: [ "README.md" ]
+
+jobs:
+  - job: image
+    displayName: "build image"
+    pool:
+      vmImage: "ubuntu-16.04"
+    workspace:
+      clean: all
+    timeoutInMinutes: 120
+
+    strategy:
+      matrix:
+        iso:
+          IMAGE_FORMAT: 'iso'
+
+    steps:
+    - bash: 'sudo -E ./vyos/build.sh ${IMAGE_FORMAT}'
+      displayName: 'image build'
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact'
+      inputs:
+        artifactName: '$(IMAGE_FORMAT)'
