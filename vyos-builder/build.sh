@@ -3,7 +3,7 @@ set -euo pipefail
 
 BUILD_BY=${BUILD_BY:-"admin@ovirt.club"}
 BUILD_TYPE=${BUILD_TYPE:-"release"}
-BUILD_VERSION=${BUILD_VERSION:-"1.2.4"}
+BUILD_VERSION=${BUILD_VERSION:-"1.2"}
 IMAGE_NAME=${IMAGE_NAME:-"vyos/vyos-build"}
 BUILD_SCRIPT_BRANCH=${BUILD_SCRIPT_BRANCH:-"current"}
 
