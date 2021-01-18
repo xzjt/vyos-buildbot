@@ -13,7 +13,7 @@
 name: $(BUILD_SCRIPT_BRANCH)-$(BUILD_TYPE)-$(Date:yyyyMMdd).$(Rev:r)
 variables:
   BUILD_BY: "admin@ovirt.club"
-  BUILD_TYPE: "release"
+  BUILD_TYPE: "beta"
   IMAGE_NAME: "vyos/vyos-build"
   BUILD_SCRIPT_BRANCH: "equuleus"
   BUILD_VERSION: "1.3"
