@@ -2,7 +2,7 @@
 #   IMAGE_NAME
 #     The docker image name
 #     Example: vyos/vyos-build
-#   BUILD_SCRIPT_BRANCH 
+#   BUILD_SCRIPT_BRANCH
 #     A branch of https://github.com/vyos/vyos-build
 #     Available value: crux, current
 #   BUILD_BY
