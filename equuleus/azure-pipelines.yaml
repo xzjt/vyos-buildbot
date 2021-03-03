@@ -5,7 +5,7 @@
 #   BUILD_SCRIPT_BRANCH
 #     A branch of https://github.com/vyos/vyos-build
 #     Available value: crux, current, equuleus
-#   BUILD_BY
+#   BUILD_BYs
 #   BUILD_TYPE
 #     image type, release or development
 #   BUILD_VERSION
@@ -16,7 +16,7 @@ variables:
   BUILD_TYPE: "release"
   IMAGE_NAME: "vyos/vyos-build"
   BUILD_SCRIPT_BRANCH: "equuleus"
-  BUILD_VERSION: "1.3-beta"
+  BUILD_VERSION: "1.3-rc1"
 
 trigger:
   batch: false
