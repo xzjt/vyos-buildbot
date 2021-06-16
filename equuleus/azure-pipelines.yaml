@@ -5,7 +5,7 @@
 #   BUILD_SCRIPT_BRANCH
 #     A branch of https://github.com/vyos/vyos-build
 #     Available value: crux, current, equuleus
-#   BUILD_BY
+#   BUILD_BYs
 #   BUILD_TYPE
 #     image type, release or development
 #   BUILD_VERSION
