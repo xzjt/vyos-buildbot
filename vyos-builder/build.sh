@@ -1,6 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
+ARCHITECTURE=${ARCHITECTURE:-"amd64"}
 BUILD_BY=${BUILD_BY:-"admin@ovirt.club"}
 BUILD_TYPE=${BUILD_TYPE:-"release"}
 BUILD_VERSION=${BUILD_VERSION:-"1.4.0-rolling"}
@@ -24,7 +25,7 @@ git clone https://github.com/vyos/vyos-build.git
 # build image
 pushd "vyos-build"
 echo "configuring..."
-docker run --rm --privileged -v $(pwd):/vyos -w /vyos "${IMAGE_NAME}:${BUILD_SCRIPT_BRANCH}" ./configure --build-by "${BUILD_BY}" --build-type "${BUILD_TYPE}" --version "${BUILD_VERSION}"
+docker run --rm --privileged -v $(pwd):/vyos -w /vyos "${IMAGE_NAME}:${BUILD_SCRIPT_BRANCH}" ./configure --architecture $ARCHITECTURE --build-by "${BUILD_BY}" --build-type "${BUILD_TYPE}" --version "${BUILD_VERSION}-$(date +%Y%m%d%H%M)"
 
 for var in "$@"
 do
