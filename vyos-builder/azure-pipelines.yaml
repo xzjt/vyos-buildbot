@@ -5,7 +5,7 @@
 #   BUILD_SCRIPT_BRANCH
 #     A branch of https://github.com/vyos/vyos-build
 #     Available value: crux, current
-#   BUILD_BY
+#   BUILD_BYs
 #   BUILD_TYPE
 #     image type, release or development
 #   BUILD_VERSION
@@ -30,7 +30,7 @@ jobs:
   - job: image
     displayName: "build image"
     pool:
-      vmImage: "ubuntu-18.04"
+      vmImage: "ubuntu-20.04"
     workspace:
       clean: all
     timeoutInMinutes: 120
