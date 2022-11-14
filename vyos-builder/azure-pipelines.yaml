@@ -16,7 +16,7 @@ variables:
   BUILD_TYPE: "release"
   IMAGE_NAME: "vyos/vyos-build"
   BUILD_SCRIPT_BRANCH: "current"
-  BUILD_VERSION: "1.4.0-rolling"
+  BUILD_VERSION: "1.4-rolling"
 
 trigger:
   batch: false
