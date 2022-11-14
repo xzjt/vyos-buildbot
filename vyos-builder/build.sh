@@ -4,7 +4,7 @@ set -euo pipefail
 ARCHITECTURE=${ARCHITECTURE:-"amd64"}
 BUILD_BY=${BUILD_BY:-"admin@ovirt.club"}
 BUILD_TYPE=${BUILD_TYPE:-"release"}
-BUILD_VERSION=${BUILD_VERSION:-"1.4.0-rolling"}
+BUILD_VERSION=${BUILD_VERSION:-"1.4-rolling"}
 IMAGE_NAME=${IMAGE_NAME:-"vyos/vyos-build"}
 BUILD_SCRIPT_BRANCH=${BUILD_SCRIPT_BRANCH:-"current"}
 
@@ -25,7 +25,7 @@ git clone https://github.com/vyos/vyos-build.git
 # build image
 pushd "vyos-build"
 echo "configuring..."
-docker run --rm --privileged -v $(pwd):/vyos -w /vyos "${IMAGE_NAME}:${BUILD_SCRIPT_BRANCH}" ./build-vyos-image iso --architecture $ARCHITECTURE --build-by "${BUILD_BY}" --build-type "${BUILD_TYPE}"
+docker run --rm --privileged -v $(pwd):/vyos -w /vyos "${IMAGE_NAME}:${BUILD_SCRIPT_BRANCH}" ./build-vyos-image iso --architecture $ARCHITECTURE --build-by "${BUILD_BY}" --build-type "${BUILD_TYPE}"  --version "${BUILD_VERSION}-$(date +%Y%m%d%H%M)"
 
 # collect artifacts
 if [ -z ${BUILD_ARTIFACTSTAGINGDIRECTORY+x} ]; then 
