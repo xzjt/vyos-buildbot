@@ -25,7 +25,7 @@ git clone https://github.com/vyos/vyos-build.git
 # build image
 pushd "vyos-build"
 echo "configuring..."
-docker run --rm --privileged -v $(pwd):/vyos -w /vyos "${IMAGE_NAME}:${BUILD_SCRIPT_BRANCH}" ./build-vyos-image iso --architecture $ARCHITECTURE --build-by "${BUILD_BY}" --build-type "${BUILD_TYPE}" --version "${BUILD_VERSION}-$(date +%Y%m%d%H%M)"
+docker run --rm --privileged -v $(pwd):/vyos -w /vyos "${IMAGE_NAME}:${BUILD_SCRIPT_BRANCH}" ./build-vyos-image iso --architecture $ARCHITECTURE --build-by "${BUILD_BY}"
 
 # collect artifacts
 if [ -z ${BUILD_ARTIFACTSTAGINGDIRECTORY+x} ]; then 
