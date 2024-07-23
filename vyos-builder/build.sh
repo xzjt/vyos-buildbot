@@ -4,7 +4,7 @@ set -euo pipefail
 ARCHITECTURE=${ARCHITECTURE:-"amd64"}
 BUILD_BY=${BUILD_BY:-"admin@ovirt.club"}
 BUILD_TYPE=${BUILD_TYPE:-"release"}
-BUILD_VERSION=${BUILD_VERSION:-"1.4-rolling"}
+BUILD_VERSION=${BUILD_VERSION:-"1.5-rolling"}
 IMAGE_NAME=${IMAGE_NAME:-"vyos/vyos-build"}
 BUILD_SCRIPT_BRANCH=${BUILD_SCRIPT_BRANCH:-"current"}
 
